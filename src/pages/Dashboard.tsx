@@ -10,11 +10,40 @@ import {
   Star, 
   Download,
   Share2,
-  Heart
+  Heart,
+  Zap,
+  Target,
+  Palette,
+  Globe,
+  BarChart3,
+  Users,
+  Clock,
+  TrendingUp
 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const { user } = useUser();
+  const navigate = useNavigate();
+
+  const stats = [
+    { title: "Total Names", value: "128", icon: <Sparkles className="h-5 w-5" />, color: "from-blue-500 to-blue-600" },
+    { title: "Saved Names", value: "24", icon: <Heart className="h-5 w-5" />, color: "from-pink-500 to-pink-600" },
+    { title: "Domains Checked", value: "89", icon: <Globe className="h-5 w-5" />, color: "from-green-500 to-green-600" },
+    { title: "Branding Kits", value: "45", icon: <Palette className="h-5 w-5" />, color: "from-purple-500 to-purple-600" }
+  ];
+
+  const recentActivity = [
+    { action: "Generated new names", time: "2 hours ago", icon: <Sparkles className="h-4 w-4" /> },
+    { action: "Saved a branding kit", time: "5 hours ago", icon: <Heart className="h-4 w-4" /> },
+    { action: "Checked domain availability", time: "1 day ago", icon: <Globe className="h-4 w-4" /> }
+  ];
+
+  const handleGenerateNewName = () => {
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -26,120 +55,112 @@ export default function Dashboard() {
         </div>
 
         {/* Welcome Section */}
-        <div className="mb-8 bg-white rounded-lg shadow p-6">
-          <div className="flex items-center gap-4">
-            <div className="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center">
-              <Sparkles className="h-8 w-8 text-blue-600" />
+        <div className="mb-8 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <div className="flex items-center gap-6">
+            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+              <Sparkles className="h-10 w-10 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold mb-1">Welcome back, {user?.firstName || 'Creator'}!</h1>
-              <p className="text-gray-600">Your branding journey continues here</p>
+              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Welcome back, {user?.firstName || 'Creator'}!
+              </h1>
+              <p className="text-gray-600 text-lg">Your branding journey continues here</p>
             </div>
           </div>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                <History className="h-6 w-6 text-green-600" />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat, index) => (
+            <Card key={index} className="p-6 bg-white border-none shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">{stat.title}</p>
+                  <h3 className="text-2xl font-bold mt-1">{stat.value}</h3>
+                </div>
+                <div className={`p-3 rounded-full bg-gradient-to-r ${stat.color}`}>
+                  {stat.icon}
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-600">Total Generations</p>
-                <p className="text-2xl font-bold">24</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center">
-                <Star className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Saved Names</p>
-                <p className="text-2xl font-bold">8</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
-                <Heart className="h-6 w-6 text-orange-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Favorites</p>
-                <p className="text-2xl font-bold">5</p>
-              </div>
-            </div>
-          </div>
+            </Card>
+          ))}
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Recent Generations */}
+          {/* Recent Activity */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <Card className="p-6 bg-white border-none shadow-lg">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Recent Generations</h2>
-                <button className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                  <History className="h-4 w-4" />
+                <h2 className="text-xl font-bold text-gray-800">Recent Activity</h2>
+                <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
                   View All
-                </button>
-              </div>
-              <RecentGenerations />
-            </div>
-
-            {/* Saved Names Section */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <SavedNames />
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-              <div className="space-y-3">
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
-                  <Sparkles className="h-4 w-4" />
-                  Generate New Name
-                </button>
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-                  <Download className="h-4 w-4" />
-                  Export All Names
-                </button>
-                <button className="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-                  <Share2 className="h-4 w-4" />
-                  Share Collection
-                </button>
-              </div>
-            </div>
-
-            {/* Account Settings */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Settings className="h-5 w-5 text-gray-600" />
-                <h2 className="text-xl font-semibold">Account Settings</h2>
+                </Button>
               </div>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <p className="mt-1 text-gray-900">{user?.primaryEmailAddress?.emailAddress}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Member Since</label>
-                  <p className="mt-1 text-gray-900">
-                    {new Date(user?.createdAt || '').toLocaleDateString()}
-                  </p>
-                </div>
-                <button className="w-full mt-4 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
-                  Edit Profile
-                </button>
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                      {activity.icon}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-800">{activity.action}</p>
+                      <p className="text-xs text-gray-500">{activity.time}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            </Card>
           </div>
+
+          {/* Quick Actions */}
+          <div>
+            <Card className="p-6 bg-white border-none shadow-lg">
+              <h2 className="text-xl font-bold text-gray-800 mb-6">Quick Actions</h2>
+              <div className="space-y-3">
+                <Button 
+                  onClick={handleGenerateNewName}
+                  className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-md"
+                >
+                  <Sparkles className="h-5 w-5 mr-2" />
+                  Generate New Name
+                </Button>
+                <Button variant="outline" className="w-full h-12">
+                  <Download className="h-5 w-5 mr-2" />
+                  Export All Names
+                </Button>
+                <Button variant="outline" className="w-full h-12">
+                  <Share2 className="h-5 w-5 mr-2" />
+                  Share Collection
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* Recent Generations */}
+        <div className="mt-8">
+          <Card className="p-6 bg-white border-none shadow-lg">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Recent Generations</h2>
+              <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                View All
+              </Button>
+            </div>
+            <RecentGenerations />
+          </Card>
+        </div>
+
+        {/* Saved Names */}
+        <div className="mt-8">
+          <Card className="p-6 bg-white border-none shadow-lg">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Saved Names</h2>
+              <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                View All
+              </Button>
+            </div>
+            <SavedNames />
+          </Card>
         </div>
       </div>
     </div>

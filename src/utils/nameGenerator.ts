@@ -1,4 +1,5 @@
 import { BrandingKit } from '@/types/branding';
+import { generateBrandStory } from './openai';
 
 const namePatterns = [
   'Tech', 'Pro', 'Smart', 'Quick', 'Flow', 'Sync', 'Hub', 'Lab', 'Works', 'Base',
@@ -33,6 +34,22 @@ const slogans = [
   'Streamline. Scale. Succeed.',
 ];
 
+const logoStyles = [
+  'minimal',
+  'geometric',
+  'abstract',
+  'letter-based',
+  'symbol-based'
+];
+
+const logoIcons = {
+  minimal: ['⚡', '✨', '🌟', '💫', '⭐'],
+  geometric: ['⬡', '⬢', '⬣', '⬤', '⬥'],
+  abstract: ['◈', '◇', '◉', '◎', '◯'],
+  'letter-based': ['A', 'B', 'C', 'D', 'E'],
+  'symbol-based': ['∞', '∆', '∑', '∏', '∫']
+};
+
 function generateName(description: string): string {
   const words = description.toLowerCase().split(' ');
   const keyWords = words.filter(word => 
@@ -56,12 +73,44 @@ function generateName(description: string): string {
     .replace('.', '');
 }
 
-function generateLogo(name: string): string {
+function generateLogo(name: string): { text: string; style: string; icon: string } {
   const words = name.split(/(?=[A-Z])/);
-  if (words.length >= 2) {
-    return words[0][0] + words[1][0];
+  const style = logoStyles[Math.floor(Math.random() * logoStyles.length)];
+  
+  let text = '';
+  let icon = '';
+  
+  switch (style) {
+    case 'minimal':
+      text = words[0][0] + words[1]?.[0] || words[0][1];
+      icon = logoIcons.minimal[Math.floor(Math.random() * logoIcons.minimal.length)];
+      break;
+    case 'geometric':
+      text = words[0].substring(0, 2);
+      icon = logoIcons.geometric[Math.floor(Math.random() * logoIcons.geometric.length)];
+      break;
+    case 'abstract':
+      text = name.substring(0, 2);
+      icon = logoIcons.abstract[Math.floor(Math.random() * logoIcons.abstract.length)];
+      break;
+    case 'letter-based':
+      text = words[0][0];
+      icon = logoIcons['letter-based'][Math.floor(Math.random() * logoIcons['letter-based'].length)];
+      break;
+    case 'symbol-based':
+      text = name.substring(0, 1);
+      icon = logoIcons['symbol-based'][Math.floor(Math.random() * logoIcons['symbol-based'].length)];
+      break;
+    default:
+      text = name.substring(0, 2);
+      icon = '✨';
   }
-  return name.substring(0, 2).toUpperCase();
+  
+  return {
+    text: text.toUpperCase(),
+    style,
+    icon
+  };
 }
 
 function checkDomainAvailability(): boolean {
@@ -83,18 +132,32 @@ export async function generateBrandingKit(description: string): Promise<Branding
     if (!usedNames.has(name)) {
       usedNames.add(name);
       const domain = `${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
-      const logo = generateLogo(name);
+      const logoData = generateLogo(name);
       const colors = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
       const slogan = generateSlogan();
       const domainAvailable = checkDomainAvailability();
+      
+      // Generate AI brand story
+      const brandStory = await generateBrandStory(name, description);
       
       results.push({
         name,
         domain,
         domainAvailable,
-        logo,
+        logo: logoData,
         slogan,
         colors,
+        brandStory: brandStory ? {
+          story: brandStory.story,
+          meaning: brandStory.meaning,
+          culturalSignificance: brandStory.culturalSignificance,
+          pronunciation: brandStory.pronunciation
+        } : undefined,
+        brandPersonality: brandStory ? {
+          traits: brandStory.brandPersonality.traits,
+          marketingAngles: brandStory.brandPersonality.marketingAngles,
+          visualIdentity: brandStory.brandPersonality.visualIdentity
+        } : undefined
       });
     }
   }

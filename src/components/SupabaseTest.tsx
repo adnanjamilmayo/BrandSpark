@@ -42,10 +42,8 @@ export function SupabaseTest() {
           setTestData(writeData);
         }
 
-        console.log('Supabase connection test successful:', { readData, testData });
         setStatus('success');
       } catch (err) {
-        console.error('Supabase connection test failed:', err);
         setStatus('error');
         setError(err instanceof Error ? err.message : 'Unknown error');
       }

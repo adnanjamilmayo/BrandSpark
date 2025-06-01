@@ -31,20 +31,16 @@ export function SavedNames() {
     if (!user) return;
 
     try {
-      let query = supabase
+      const { data, error } = await supabase
         .from('name_generations')
         .select('*')
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
-      if (selectedCollectionId) {
-        query = query.eq('collection_id', selectedCollectionId);
+      if (error) {
+        throw error;
       }
 
-      const { data, error } = await query;
-
-      if (error) throw error;
-
-      console.log('Fetched saved names:', data);
       setSavedNames(data || []);
       setFilteredNames(data || []);
     } catch (err) {

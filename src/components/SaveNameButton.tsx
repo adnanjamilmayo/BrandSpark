@@ -8,9 +8,10 @@ import { toast } from 'sonner';
 interface SaveNameButtonProps {
   name: string;
   description: string;
+  onSave?: () => void;
 }
 
-export function SaveNameButton({ name, description }: SaveNameButtonProps) {
+export function SaveNameButton({ name, description, onSave }: SaveNameButtonProps) {
   const { user } = useUser();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -27,20 +28,20 @@ export function SaveNameButton({ name, description }: SaveNameButtonProps) {
         .insert([
           {
             user_id: user.id,
-            name,
-            description,
+            name: name,
+            description: description,
             is_favorite: false
           }
         ])
         .select();
 
       if (error) {
-        console.error('Supabase error:', error);
-        throw new Error(error.message);
+        throw error;
       }
 
-      console.log('Saved successfully:', data);
+      setIsSaving(false);
       toast.success('Name saved successfully!');
+      onSave?.();
     } catch (error) {
       console.error('Error saving name:', error);
       if (error instanceof Error) {
@@ -48,8 +49,6 @@ export function SaveNameButton({ name, description }: SaveNameButtonProps) {
       } else {
         toast.error('Failed to save name. Please try again.');
       }
-    } finally {
-      setIsSaving(false);
     }
   };
 
