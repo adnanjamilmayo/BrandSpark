@@ -1,4 +1,3 @@
-
 import { BrandingKit } from '@/types/branding';
 
 const namePatterns = [
@@ -70,7 +69,11 @@ function checkDomainAvailability(): boolean {
   return Math.random() > 0.6; // 40% chance of availability
 }
 
-export function generateBrandingKit(description: string): BrandingKit[] {
+function generateSlogan(): string {
+  return slogans[Math.floor(Math.random() * slogans.length)];
+}
+
+export async function generateBrandingKit(description: string): Promise<BrandingKit[]> {
   const results: BrandingKit[] = [];
   const usedNames = new Set<string>();
   
@@ -82,7 +85,7 @@ export function generateBrandingKit(description: string): BrandingKit[] {
       const domain = `${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`;
       const logo = generateLogo(name);
       const colors = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
-      const slogan = slogans[Math.floor(Math.random() * slogans.length)];
+      const slogan = generateSlogan();
       const domainAvailable = checkDomainAvailability();
       
       results.push({

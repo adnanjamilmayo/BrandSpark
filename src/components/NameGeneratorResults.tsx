@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Download, CheckCircle, XCircle, Copy, Heart } from 'lucide-react';
 import { BrandingKit } from '@/types/branding';
 import { useToast } from '@/hooks/use-toast';
+import { SaveNameButton } from './SaveNameButton';
 
 interface NameGeneratorResultsProps {
   results: BrandingKit[];
@@ -145,6 +145,10 @@ export const NameGeneratorResults: React.FC<NameGeneratorResultsProps> = ({ resu
                 <Download className="w-4 h-4 mr-1" />
                 Download
               </Button>
+            </div>
+            
+            <div className="mt-4">
+              <SaveNameButton name={kit.name} description={kit.slogan} />
             </div>
           </Card>
         ))}

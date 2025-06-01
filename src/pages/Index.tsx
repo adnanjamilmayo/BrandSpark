@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { NameGeneratorHero } from '@/components/NameGeneratorHero';
 import { NameGeneratorResults } from '@/components/NameGeneratorResults';
 import { RecentGenerations } from '@/components/RecentGenerations';
+import { Header } from '@/components/Header';
 import { generateBrandingKit } from '@/utils/nameGenerator';
 import { BrandingKit } from '@/types/branding';
 
@@ -19,7 +19,7 @@ const Index = () => {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 3000));
       
-      const brandingKits = generateBrandingKit(description);
+      const brandingKits = await generateBrandingKit(description);
       setResults(brandingKits);
       setShowResults(true);
       
@@ -43,6 +43,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <div id="generator">
           <NameGeneratorHero onGenerate={handleGenerate} isLoading={isGenerating} />
