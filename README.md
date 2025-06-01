@@ -12,6 +12,56 @@ BrandSpark is an AI-powered tool that helps you generate unique brand names and 
   - Professional slogans
   - Brand guidelines
 
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+### Installation
+
+1. Clone the repository:
+```sh
+git clone https://github.com/yourusername/brandspark.git
+cd brandspark
+```
+
+2. Install dependencies:
+```sh
+npm install
+```
+
+3. Start the development server:
+```sh
+npm run dev
+```
+
+## Features
+
+- **Smart Name Generation**: AI-powered name suggestions based on your business description
+- **Domain Availability**: Real-time domain availability checking
+- **Complete Branding Kits**: Get everything you need for your brand
+- **Save & Organize**: Save your favorite names and create collections
+- **Export Options**: Download branding kits in various formats
+
+## Technologies Used
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Supabase
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/d5813216-bdda-40f5-aca6-9b6998446efa
@@ -61,16 +111,6 @@ npm run dev
 - Select the "Codespaces" tab.
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
 ## How can I deploy this project?
 
