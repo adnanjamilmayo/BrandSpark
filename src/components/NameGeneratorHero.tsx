@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Sparkles, Zap, Target } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface NameGeneratorHeroProps {
   onGenerate: (description: string) => void;
@@ -29,13 +29,11 @@ export const NameGeneratorHero: React.FC<NameGeneratorHeroProps> = ({ onGenerate
     <div className="text-center max-w-4xl mx-auto mb-16">
       <div className="mb-8">
         <div className="flex justify-center mb-6">
-          <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg">
-            <Sparkles className="w-12 h-12 text-white" />
-          </div>
+          <Logo size="lg" />
         </div>
         
         <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-          AI SaaS Name Generator
+          BrandSpark
         </h1>
         
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">

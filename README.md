@@ -1,4 +1,16 @@
-# Welcome to your Lovable project
+# BrandSpark - AI-Powered Brand Name Generator
+
+## Project Overview
+
+BrandSpark is an AI-powered tool that helps you generate unique brand names and complete branding kits for your business or project. It provides:
+
+- Smart name generation
+- Domain availability checking
+- Complete branding kits with:
+  - Color palettes
+  - Logo previews
+  - Professional slogans
+  - Brand guidelines
 
 ## Project info
 
